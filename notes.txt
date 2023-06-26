@@ -1,0 +1,134 @@
+/*
+//Version Sans le Set() et la selection multiple de filtres
+async function getWorksDataOnLoad() {
+    const response = await fetch(`http://localhost:5678/api/works`);
+    const works = await response.json();
+    generateWorks(works);
+
+    btnAll.addEventListener("click", function () {
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(works);
+    })
+
+    btnObj.addEventListener("click", function () {
+        const objWork = works.filter(function (work) {
+            return work.categoryId === 1;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(objWork);
+        console.log(objWork)
+    })
+
+    btnAppart.addEventListener("click", function () {
+        const appartWork = works.filter(function (work) {
+            return work.categoryId === 2;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(appartWork);
+        console.log(appartWork)
+    })
+
+    btnHotRest.addEventListener("click", function () {
+        const HotRestWork = works.filter(function (work) {
+            return work.categoryId === 3;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(HotRestWork);
+        console.log(HotRestWork)
+    })
+}
+
+function generateWorks(works) {
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        const gallery = document.querySelector(".gallery");
+        const workElement = document.createElement("figure");
+        const workImage = document.createElement("img");
+        const workTitle = document.createElement("figcaption");
+        workImage.src = work.imageUrl;
+        workTitle.innerText = work.title;
+        gallery.appendChild(workElement);
+        workElement.appendChild(workImage);
+        workElement.appendChild(workTitle);
+       /*  console.log(i + " Generated work"); */
+       /*  console.log(work.categoryId) */
+    }
+}
+
+const btnAll = document.querySelector('button[data-filter="0"]');
+const btnObj = document.querySelector('button[data-filter="1"]');
+const btnAppart = document.querySelector('button[data-filter="2"]');
+const btnHotRest = document.querySelector('button[data-filter="3"]');
+
+
+getWorksDataOnLoad();
+
+*/
+
+
+/*
+  To make a POST request to the /users/login endpoint and send the user's 
+  email and password for login, you can use JavaScript's fetch() function. 
+  Here's an example code snippet that demonstrates how to make the request:*/
+
+/*In this example, the login() function takes the email and password as
+parameters and sends a POST request to the /users/login endpoint with the provided data.
+ The response from the server is logged to the console for demonstration purposes. 
+ You can modify the code inside the then() blocks to handle the response and perform 
+ appropriate actions based on the login result.
+Make sure to replace /users/login with the appropriate URL of your backend API endpoint.*/
+
+
+
+
+
+
+
+
+
+// Use the selectedWork variable when pressing another button
+  // For example, on a delete button click
+
+
+/*
+deleteButton.addEventListener("click", function () {
+  if (selectedWork) {
+    // Perform deletion logic using the selected work
+    // For example: deleteWork(selectedWork);
+    console.log("Deleting work:", selectedWork);
+
+    // Clear the selected work
+    selectedWork = null;
+  }
+});
+*/
+
+
+/* modalCloseBtn.addEventListener('click', function () {
+    modal.style.display = 'none'
+    main.classList.remove('--blurEffect')
+    header.classList.remove('--blurEffect')
+    body.classList.remove('--grayEffect')
+});
+ */
+
+/*  
+    const loginB = document.getElementById('loginB')
+    loginB.style.display ="none";
+    const logoutB = document.getElementById('logoutB')
+    logoutB.style.display ="flex"; */
+
+
+
+
+ /* const image = formData.get('image');
+    console.log('image', image);
+    const title = formData.get('title');
+    console.log('title:', title);
+    const category = formData.get('category');
+    console.log('category:', category);
+
+    console.log(formData)
+    for (const pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+    } */
