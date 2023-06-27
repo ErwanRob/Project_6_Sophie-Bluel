@@ -40,7 +40,7 @@ async function loginUser(email, password) {
       const { userId, token } = data;
       // Store the token in local storage or a cookie for future use
       localStorage.setItem('token', token);
-      // Perform actions after successful login (example : redirect to another page)
+      // Perform actions after successful login
       window.location.href = "index.html"
       console.log('Connected')
     } else if (response.status === 401) {

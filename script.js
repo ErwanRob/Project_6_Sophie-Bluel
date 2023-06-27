@@ -121,13 +121,13 @@ form.addEventListener('submit', async function (event) {
 //---------- FUNCTIONS ----------
 //Apply filters and show the filetered works
 function applyFilters() {
-    //On verifie s'il n'y a pas de filtre actif
+    //Checking if there is no active filters
     if (activeFilters.size === 0) {
-        //Si c'est le cas, on sélectionne le filtre "TOUS" et on affiche l'entiereté des travaux
+        //If there is no active filters, we select the ALL filter and show ALL work
         cleanseAndShow(works);
         btnAll.classList.add('selected');
     } else {
-        //Sinon, on affiche les travaux filtrés en fonction de leur catégorie
+        //Otherwise, we display the filtered works regarding of there category
         const filteredWorks = works.filter(function (work) {
             return activeFilters.has(work.categoryId);
         });
@@ -164,19 +164,19 @@ async function getWorksDataOnLoad() {
     //Recupération des données via l'API & Conversion des données au format json
     fetchData();
 
-    //Recupération des catégories via l'API & Conversion des données au format json
+    //Fetch the categories via the API and convert them into Json format
     const categoriesResponse = await fetch('http://localhost:5678/api/categories');
     const categories = await categoriesResponse.json();
-    //Fonction permettant le basculer et appliquer les filtres
+    //Function to toggle and switch filters
     function toggleFilters(categoryId, button) {
-        //Verification du filtre, actif -> remove / inactif -> add / (toogle)
+        //Checking filter, active -> remove / inactive -> add / (toogle)
         if (activeFilters.has(categoryId)) {
             activeFilters.delete(categoryId);
             button.classList.remove('selected');
         } else {
             activeFilters.add(categoryId);
             button.classList.add('selected');
-            //Déselecte le filtre TOUS lorsqu'un autre filtre est actif
+            //Unselect the ALL filter when another filter is active
             if (activeFilters.size > 0) {
                 btnAll.classList.remove('selected');
             }
@@ -186,18 +186,18 @@ async function getWorksDataOnLoad() {
 
 
 
-    //Ajout d'un EventListener sur les filtres
+    //Adds an event listener on each filter
     buttons.forEach(function (button) {
-        //On convertit la valeur de data-filtrer en int
+        //Convert the data filter value into an integer
         const categoryId = parseInt(button.dataset.filter);
         button.addEventListener("click", function () {
             if (categoryId === 0) {
-                //On deselectionne les filtres actifs lorsque que le bouton ALL est séléctionné
+                //unselect active filters when ALL is selected
                 activeFilters.clear();
                 buttons.forEach(function (button) {
                     button.classList.remove('selected');
                 });
-                //On sélectionne le filtre "TOUS" et on affiche l'entiereté des travaux
+                //We Select the all filter and display ALL works
                 cleanseAndShow(works);
                 btnAll.classList.add('selected');
             } else {
@@ -269,7 +269,6 @@ function generateModalWorks(works) {
                     console.error(error);
                 }
             }
-            /*   console.log("Work selected:", work, "Ready to be deleted"); */
         });
     }
     console.log('GeneratedModalWorks')
