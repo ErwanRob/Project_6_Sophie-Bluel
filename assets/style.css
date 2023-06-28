@@ -521,6 +521,15 @@ footer nav ul {
 	font-size: 64px;
 	color: grey;
 }
+.addPic_Description-title , .addPic_Description-byline, .addPicIcon {
+	display: flex;
+}
+
+#preview{
+	display: none;
+	width:130px;
+	height: 170px;
+}
 
 .addPic_Description-title {
 	color: #306685;

@@ -24,7 +24,14 @@ const addAPictureBtn = document.querySelector('.addPic_btn');
 const arrowLeft = document.querySelector('.previous');
 const form = document.getElementById('submitForm');
 let categorySelection = document.getElementById('categories');
+const picHolderIcon = document.querySelector('.addPicIcon');
+const picHolderTitle = document.querySelector('.addPic_Description-title');
+const picHolderByline = document.querySelector('.addPic_Description-byline');
+const fileInput = document.getElementById('photo');
+const preview = document.getElementById('preview');
+
 let isModalOpen = false;
+
 /*TopBlackLine consts*/
 const topBlackLine = document.querySelector('.top-blackLine');
 const editionModeBtn = document.querySelector('.editionModeBtn');
@@ -93,6 +100,36 @@ publicateChangesBtn.addEventListener('click', function () {
     body.classList.add('grayEffect')
     toggleModalStatus();
 });
+fileInput.addEventListener('change', function (event) {
+    // Listen for the 'change' event on the file input
+    // Get the selected file
+    const file = event.target.files[0];
+    // Check if a file is selected
+    if (file) {
+        picHolderIcon.style.display = 'none';
+        picHolderTitle.style.display = 'none';
+        picHolderByline.style.display = 'none';
+        preview.style.display = 'flex';
+        // Create a FileReader object to read the file
+        const reader = new FileReader();
+        // Set up the FileReader to load the image as a data URL
+        reader.readAsDataURL(file);
+        // Handle the 'load' event when the file is successfully loaded
+        reader.addEventListener('load', function (event) {
+            // Get the data URL of the loaded image
+            const imageUrl = event.target.result;
+            // Set the preview image source to the data URL
+            preview.setAttribute('src', imageUrl);
+        });
+    } else {
+        // If no file is selected, clear the preview image
+        preview.setAttribute('src', '');
+        preview.style.display = 'none';
+        picHolderIcon.style.display = 'flex';
+        picHolderTitle.style.display = 'flex';
+        picHolderByline.style.display = 'flex';
+    }
+});
 form.addEventListener('submit', async function (event) {
     event.preventDefault(); // prevent default form submission
     const formData = new FormData(form);
@@ -152,12 +189,10 @@ async function fetchAndRefresh() {
 }
 //Cleanse without fetching the gallery and show a specific list of work
 function cleanseAndShow(workList) {
-    /* console.log('CleanseandShowStart') */
     mainGallery.innerHTML = "";
     generateWorks(workList);
     smlGallery.innerHTML = "";
     generateModalWorks(workList);
-    /* console.log('CleanseandShowEnd') */
 }
 //Main function, initial call to fecth data on page load
 async function getWorksDataOnLoad() {
@@ -318,6 +353,7 @@ function imgSelectionToggle(workImage) {
         workImage.classList.add('imgSelected');
     }
 }
+
 
 
 //---------- PROCESS ----------
