@@ -15,6 +15,7 @@ const mainGallery = document.querySelector(".gallery");
 const smlGallery = document.querySelector(".smlGallery");
 /*Modal consts*/
 const modifyProfilBtn = document.getElementById('modifyProfil');
+const modifyProfilBtn2 = document.getElementById('modifyProfil2');
 const modifyButton = document.getElementById('modifyProject');
 const modal = document.getElementById('sbModal');
 const modalCloseBtn = document.querySelectorAll('.modal .close');
@@ -39,6 +40,23 @@ const publicateChangesBtn = document.querySelector('.publicateChangesBtn');
 
 
 // ---------- EVT LISTENERS ----------
+
+function closeModal() {
+    modal.style.display = 'none'
+    main.classList.remove('blurEffect')
+    header.classList.remove('blurEffect')
+    body.classList.remove('grayEffect')
+    toggleModalStatus();
+}
+function openModal() {
+    modal.style.display = 'block'
+    manageGallery.style.display = "flex"
+    managePic.style.display = "none"
+    main.classList.add('blurEffect')
+    header.classList.add('blurEffect')
+    body.classList.add('grayEffect')
+    toggleModalStatus();
+}
 logInOutBtn.addEventListener('click', function () {
     // Remove the token from local storage
     localStorage.removeItem('token');
@@ -48,30 +66,16 @@ logInOutBtn.addEventListener('click', function () {
 window.addEventListener('click', function (event) {
     if (isModalOpen && event.target !== modal && !modal.contains(event.target)) {
         setTimeout(function () {
-            modal.style.display = 'none';
-            main.classList.remove('blurEffect');
-            header.classList.remove('blurEffect');
-            body.classList.remove('grayEffect');
-            toggleModalStatus();
+            closeModal();
         }, 250);
     }
 });
 modifyButton.addEventListener('click', function () {
-    modal.style.display = 'block'
-    manageGallery.style.display = "flex"
-    managePic.style.display = "none"
-    main.classList.add('blurEffect')
-    header.classList.add('blurEffect')
-    body.classList.add('grayEffect')
-    toggleModalStatus();
+    openModal();
 });
 modalCloseBtn.forEach(function (closeBtn) {
     closeBtn.addEventListener('click', function () {
-        modal.style.display = 'none'
-        main.classList.remove('blurEffect')
-        header.classList.remove('blurEffect')
-        body.classList.remove('grayEffect')
-        toggleModalStatus();
+        closeModal();
     })
 });
 addAPictureBtn.addEventListener('click', function () {
@@ -145,12 +149,11 @@ form.addEventListener('submit', async function (event) {
         if (response.status === 201) {
             const data = await response.json();
             fetchAndRefresh();
-            console.log('Work Created', data);
+            closeModal();
         } else {
             throw new Error('Failed to create work');
         }
     } catch (error) {
-        console.error(error);
     }
 });
 
@@ -170,13 +173,11 @@ function applyFilters() {
         });
         cleanseAndShow(filteredWorks);
     }
-    console.log('filterApplied')
 }
 //Fetch the data from database
 async function fetchData() {
     const response = await fetch(`http://localhost:5678/api/works`);
     works = await response.json();
-    console.log('Data Fetched')
 }
 //Cleanse and regenerate data by fetching the work list from the database
 async function fetchAndRefresh() {
@@ -185,7 +186,6 @@ async function fetchAndRefresh() {
     await fetchData();
     generateWorks(works);
     generateModalWorks(works);
-    console.log('Galleries Refreshed')
 }
 //Cleanse without fetching the gallery and show a specific list of work
 function cleanseAndShow(workList) {
@@ -245,8 +245,6 @@ async function getWorksDataOnLoad() {
     generateModalWorks(works); */
     generateCategoriesInModal(categories);
     applyFilters();
-
-    console.log('GetWorkDataOnLoad')
 }
 //Fonction qui genere les travaux dans la galerie
 function generateWorks(works) {
@@ -261,7 +259,6 @@ function generateWorks(works) {
         workElement.appendChild(workImage);
         workElement.appendChild(workTitle);
     }
-    console.log('GeneratedWorks')
 }
 //Fonction qui génère les travaux dans le modal au chargement de la page
 function generateModalWorks(works) {
@@ -290,23 +287,18 @@ function generateModalWorks(works) {
                         },
                         method: 'DELETE',
                     });
-                    console.log('Response status:', response.status);
-
                     if (response.status === 200 || response.status === 204) {
                         // Work deleted successfully, remove the work element from the gallery
                         workElement.remove();
                         fetchAndRefresh();
-                        console.log("Work deleted:", work);
                     } else {
                         throw new Error('Failed to delete work');
                     }
                 } catch (error) {
-                    console.error(error);
                 }
             }
         });
     }
-    console.log('GeneratedModalWorks')
 }
 //Generate dynamicaly the categories in the modal
 function generateCategoriesInModal(categories) {
@@ -316,7 +308,6 @@ function generateCategoriesInModal(categories) {
         option.textContent = category.name;
         categorySelection.appendChild(option)
     });
-    console.log('GeneratedCategoriesInModal')
 }
 //Add the top blackline modification tool when user is logged in
 function addTopBlackLine() {
@@ -327,6 +318,7 @@ function addTopBlackLine() {
 function addModifyButton() {
     modifyButton.style.display = "inline-block";
     modifyProfilBtn.style.display = "inline-block";
+    modifyProfilBtn2.style.display = "inline-block";
     const projTitle = document.querySelector("#portfolio_header h2")
     projTitle.classList.add('adjustedPortfolioHeader')
 }
@@ -342,7 +334,6 @@ function toggleModalStatus() {
         } else {
             isModalOpen = true;
         }
-        console.log("ModalOpen:", isModalOpen)
     }, 100);
 }
 //Bonus function which is not applied atm but aim to let the user select multiple images before deleting them
@@ -354,8 +345,6 @@ function imgSelectionToggle(workImage) {
     }
 }
 
-
-
 //---------- PROCESS ----------
 
 //Checking if user is logged in
@@ -363,10 +352,6 @@ if (token) {
     addTopBlackLine();
     addModifyButton();
     swapLoginLogout();
-    console.log('User is logged in');
-} else {
-    console.log('User is not logged in');
 }
-
 //Initial call
 getWorksDataOnLoad();

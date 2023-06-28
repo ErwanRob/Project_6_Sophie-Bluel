@@ -42,24 +42,19 @@ async function loginUser(email, password) {
       localStorage.setItem('token', token);
       // Perform actions after successful login
       window.location.href = "index.html"
-      console.log('Connected')
     } else if (response.status === 401) {
       passwordInput.classList.add('loginErr');
       clearErrMessage();
       setErrMessage('Invalid password');
-      console.log('Invalid password');
     } else if (response.status === 404) {
       passwordInput.classList.add('loginErr');
       emailInput.classList.add('loginErr');
       clearErrMessage();
       setErrMessage('User not found');
-      console.log('User not found');
     } else {
-      setErrMessage('An Unexpected error occurred, please try again later')
-      console.log('Unexpected error occurred');
+      setErrMessage('An Unexpected error occurred, please try again later')  
     }
   } catch (error) {
-    console.log('An error occurred:', error);
   }
 }
 
